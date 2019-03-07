@@ -1,3 +1,5 @@
+# TODO Make sure heap sort and quick sort are correctly recording comparisons and array history
+
 import itertools
 to_sort = [1, 2, 3, 4]
 comparisons = []
@@ -24,7 +26,7 @@ def insertion_sort(array):
         key = array[i]
         j = i - 1
         while j >= 0 and key < array[j]:
-            comparisons.append((key, "<" , array[j]))
+            comparisons.append((key, "<", array[j]))
             array[j+1] = array[j]
             j -= 1
         comparisons.append((key, ">", array[j]))
@@ -52,9 +54,7 @@ def selection_sort(array):
     return array
 
 
-
 def merge_sort(array):
-
     if len(array) > 1:
         midpoint = len(array) // 2
         left_array = merge_sort(array[:midpoint])
@@ -88,6 +88,13 @@ def merge(left_array, right_array):
     return merged_array
 
 
+def quick_sort_start(array):
+    low = 0
+    high = len(array) - 1
+    array_history.append(list(array))
+    return quick_sort(array, low, high)
+
+
 def quick_sort(array, low, high):
     if low < high:
         partition_index = partition(array, low, high)
@@ -103,21 +110,28 @@ def partition(array, low, high):
 
     for j in range(low, high):
         if array[j] <= pivot:
+            comparisons.append((array[j], "<", pivot))
             i += 1
             array[i], array[j] = array[j], array[i]
-
-    array[i+1], array[high] = array[high], array[i+1]
+            array_history.append(list(array))
+        else:
+            comparisons.append((array[j], ">", pivot))
+            array[i+1], array[high] = array[high], array[i+1]
+    array_history.append(list(array))
     return i+1
 
 
 def heap_sort(array):
+    array_history.append(list(array))
     n = len(array)
+
     for i in range(n, -1, -1):
         heapify(array, n, i)
 
     for i in range(n-1, 0, -1):
         array[i], array[0] = array[0], array[i]
         heapify(array, i, 0)
+        array_history.append(list(array))
     return array
 
 
@@ -127,10 +141,16 @@ def heapify(array, n, i):
     right_child = 2 * i + 2
 
     if left_child < n and array[i] < array[left_child]:
+        comparisons.append((array[left_child], ">", array[i]))
         maximum = left_child
+    elif left_child < n and array[i] > array[left_child]:
+        comparisons.append((array[left_child], "<", array[i]))
 
     if right_child < n and array[maximum] < array[right_child]:
+        comparisons.append((array[right_child], ">", array[maximum]))
         maximum = right_child
+    elif right_child < n and array[maximum] > array[right_child]:
+        comparisons.append((array[right_child], "<", array[maximum]))
 
     if maximum != i:
         array[i], array[maximum] = array[maximum], array[i]
@@ -140,8 +160,10 @@ def heapify(array, n, i):
 def sort(sorting_algorithm, a_list):
     results = []
     list_permutations = []
+
     for k in itertools.permutations(a_list, r=len(a_list)):
         list_permutations.append(k)
+
     for l in list_permutations:
         initial_array = list(l)
         sorted_array = sorting_algorithm(list(initial_array))
@@ -150,8 +172,10 @@ def sort(sorting_algorithm, a_list):
         results.append((initial_array, sorted_array, compared, history))
         del comparisons[:]
         del array_history[:]
+
     for r in results:
         print(r)
         print("\n")
 
-sort(insertion_sort, to_sort)
+
+sort(quick_sort_start, to_sort)
