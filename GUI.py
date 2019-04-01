@@ -3,6 +3,7 @@ import itertools
 import SortingAlgorithms
 import DecisionTree
 
+# runs a sorting algorithm if user input is valid
 def call_sorting_algorithm(algorithm, array):
     dt = DecisionTree.DecisionTree()
     array_permutations = []  # empty list to be filled with all permutations of a given list of elements
@@ -40,7 +41,7 @@ def call_sorting_algorithm(algorithm, array):
                 DecisionTree.append_data(l, elements)
     results_label_text.set((DecisionTree.RenderTree(dt.root)))
 
-
+# checks that user has submitted valid unput
 def submit_user_input():
     feedback_label_text.set("")
     user_input = user_input_entry.get()
@@ -54,6 +55,7 @@ def submit_user_input():
             list_to_sort.append(float(v))
         if len(list_to_sort) != 3:
             raise IndexError
+        feedback_label_text.set("Success")
         call_sorting_algorithm(option_var.get(), list_to_sort)
 
     # if non-numeric values are given, prompt the user to try again
@@ -77,6 +79,7 @@ selection_label_text.set("Select a sorting Algorithm")
 selection_label = Tkinter.Label(window, textvariable=selection_label_text)
 selection_label.pack()
 
+# option list for selecting a sorting algorithm to run
 option_list = ["Bubble Sort", "Insertion Sort", "Selection Sort", "Merge Sort", "Heap Sort", "Quick Sort"]
 option_var = Tkinter.StringVar()
 option_var.set(option_list[0])
@@ -84,21 +87,27 @@ drop_menu = Tkinter.OptionMenu(window, option_var, *option_list)
 drop_menu.grid(column=0, row=6)
 drop_menu.pack()
 
+# label to prompt for the user to enter input
 entry_prompt_label_text = Tkinter.StringVar()
 entry_prompt_label_text.set("Enter a list of numbers to be sorted \n Numbers must be separated by spaces")
 entry_prompt_label = Tkinter.Label(window, textvariable=entry_prompt_label_text)
 entry_prompt_label.pack()
 
+# label to provide feedback on user input
 feedback_label_text = Tkinter.StringVar()
 feedback_label_text.set("")
 feedback_label = Tkinter.Label(window, textvariable=feedback_label_text)
 feedback_label.pack()
+
+# entry element for user input
 user_input_entry = Tkinter.Entry(window)
 user_input_entry.pack()
 
+# submit button
 submit_user_input_button = Tkinter.Button(window, text="Submit", command=submit_user_input)
 submit_user_input_button.pack()
 
+# label to display the decision tree
 results_label_text = Tkinter.StringVar()
 results_label_text.set("")
 results_label = Tkinter.Label(window, textvariable=results_label_text, justify="left")
