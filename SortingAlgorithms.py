@@ -1,6 +1,14 @@
+# sorting algorithms take an array of tuples as input
+# the tuples must be in the format (n, l), such that n is a number
+# and l is a letter where the first tuple in the list would have l = "a"
+# the second would have l = "b" and so on
+# this is for bookkeeping purposes so the results can be used to build the decision tree
+
+# whenever a sorting algorithm makes a comparison, it will be appended to this list
 decisions_made = []
 
 
+# function for swapping two given indexes in a list
 def swap(array, x, y):
     array[x], array[y] = array[y], array[x]
 
