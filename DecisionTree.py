@@ -1,52 +1,110 @@
-from anytree import AnyNode, RenderTree
+from SortingAlgorithms import swap
+import string
+from anytree import *
 
 
-class DecisionTree:
-    def __init__(self):
-        # When rendering a tree, anytree prints the attributes of a node in alphabetical order
-        # for this reason, order and data became j_order and k_data respectively
-        # so they would be printed in the desired order
+class TreeNode:
+    def __init__(self, parent, order, decision):
+        self.parent = parent
+        self.decision = decision
+        self.order = order
+        self.left_child = None
+        self.right_child = None
+        self.data = []
 
-        # d refers to the depth of a node
-        # eg. d3_llr is at depth 3
+    def add_node(self, parent_order, decisions, data):
+        self.data.append(data)
+        order = parent_order
+        index_a = 0
+        index_b = 0
+        for i in range(len(parent_order)):
+            if parent_order[i] == decisions[0][0]:
+                index_a = i
+            elif parent_order[i] == decisions[0][2]:
+                index_b = i
 
-        # l and r refer to the edges to be followed from the root to reach a node
-        # eg. d3_llr is reached by following left at depth 0, left at depth 1 and right at depth 2
+        if decisions[0][1] == ">":
+            swap(order, index_a, index_b)
+            # if the node does not have a left child, create one
+            if self.left_child is None:
+                self.left_child = TreeNode(self, order, string.join(decisions[0]))
+                # if there are still decisions in the list, call add_node on the newly created node
+                if len(decisions) > 1:
+                    decisions.pop(0)
+                    self.left_child.add_node(order, decisions, data)
+                else:
+                    self.left_child.add_leaf_node_data(decisions, data)
+            # if the node already has a left child, call add_node on it
+            else:
+                decisions.pop(0)
+                self.left_child.add_node(order, decisions, data)
+        else:
+            # if the node does not have a right child, create one
+            if self.right_child is None:
+                self.right_child = TreeNode(self, order, string.join(decisions[0]))
+                # if there are still decisions in the list, call add_node on the newly created node
+                if len(decisions) > 1:
+                    decisions.pop(0)
+                    self.right_child.add_node(order, decisions, data)
+                else:
+                    self.right_child.add_leaf_node_data(decisions, data)
+            # if the node already has a right child, call add_node on it
+            else:
+                decisions.pop(0)
+                self.right_child.add_node(order, decisions, data)
 
-        # the id attribute represents the result of the comparison made at the parent node (excluding the root node)
+    def add_leaf_node_data(self, decisions, data):
+        a = (data[0], "a")
+        b = (data[1], "b")
+        c = (data[2], "c")
 
-        # depth 0 node
-        self.root =  AnyNode(id="root", j_order="abc", k_data=[])
+        operand_1 = None
+        operand_2 = None
 
-        # depth 1 nodes
-        self.d1_l = AnyNode(id="a<b", parent=self.root, j_order="abc", k_data=[])
-        self.d1_r = AnyNode(id="a>b", parent=self.root, j_order="bac", k_data=[])
+        if decisions[0][0] == a[1]:
+            operand_1 = a[0]
+        elif decisions[0][0] == b[1]:
+            operand_1 = b[0]
+        elif decisions[0][0] == c[1]:
+            operand_1 = c[0]
 
-        # depth 2 nodes
-        self.d2_ll = AnyNode(id="b<c;", parent=self.d1_l, j_order="abc", k_data=[])
-        self.d2_lr = AnyNode(id="b>c", parent=self.d1_l, j_order="acb", k_data=[])
-        self.d2_rl = AnyNode(id="a<c", parent=self.d1_r, j_order="bac", k_data=[])
-        self.d2_rr = AnyNode(id="a>c", parent=self.d1_r, j_order="bca", k_data=[])
+        if decisions[0][2] == a[1]:
+            operand_2 = a[0]
+        elif decisions[0][2] == b[1]:
+            operand_2 = b[0]
+        elif decisions[0][2] == c[1]:
+            operand_2 = c[0]
 
-        # depth 3 nodes
-        self.d3_lll = AnyNode(id="a<b", parent=self.d2_ll, j_order="abc", k_data=[])
-        # impossible for both a<b and a>b to be true so k_data will be None
-        self.d3_llr = AnyNode(id="a>b", parent=self.d2_ll, j_order=None, k_data=None)
-        self.d3_lrl = AnyNode(id="a<c", parent=self.d2_lr, j_order="acb", k_data=[])
-        self.d3_lrr = AnyNode(id="a>c", parent=self.d2_lr, j_order="cab", k_data=[])
-        self.d3_rll = AnyNode(id="b<a", parent=self.d2_rl, j_order="bac", k_data=[])
-        # impossible for both a<b and a>b to be true so k_data will be None
-        self.d3_rlr = AnyNode(id="b>a", parent=self.d2_rl, j_order=None, k_data=None)
-        self.d3_rrl = AnyNode(id="b<c", parent=self.d2_rr, j_order="bca", k_data=[])
-        self.d3_rrr = AnyNode(id="b>c", parent=self.d2_rr, j_order="cba", k_data=[])
+        if operand_1 > operand_2:
+            self.data.append(data)
+        else:
+            self.data.append(data)
 
-        self.leaves = [self.d3_lll, self.d3_llr, self.d3_lrl,self.d3_lrr
-                , self.d3_rll, self.d3_rlr, self.d3_rrl, self.d3_rrr]
+    def print_tree(self):
+        print(self.decision, self.data)
+        if self.left_child:
+            self.left_child.print_tree()
+        if self.right_child:
+            self.right_child.print_tree()
 
-
-# appends to the k_data attribute of the specified node
-# if the node has a parent, the function is recursively called using the parent node
-def append_data(node, data):
-    node.k_data.append(data)
-    if node.parent is not None:
-        append_data(node.parent, data)
+    def create_graphic_node(self, graphic_node):
+        data = []
+        for i in self.data:
+            temp_data = []
+            for j in range(len(i)):
+                temp_data.append(i[j][0])
+            data.append(temp_data)
+        if isinstance(graphic_node, int):
+            id = ""
+            for i in range(graphic_node):
+                id = id + string.ascii_lowercase[i]
+                if i < graphic_node -1:
+                    id = id + " "
+            node = AnyNode(id=id, parent=self.parent, j_data=data)
+        else:
+            node = AnyNode(id=string.join(self.order), parent=graphic_node, j_data=data)
+        if self.left_child:
+            self.left_child.create_graphic_node(node)
+        if self.right_child:
+            self.right_child.create_graphic_node(node)
+        return node
