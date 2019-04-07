@@ -6,6 +6,16 @@ import DecisionTree
 import SortingAlgorithms
 
 
+# custom error raised when a user submitted list is too short
+class ListTooShortError(IOError):
+    pass
+
+
+# custom error raised when a user submitted list is too long
+class ListTooLongError(IOError):
+    pass
+
+
 class TreeGUI:
     def __init__(self, master):
 
@@ -68,12 +78,16 @@ class TreeGUI:
         # check that user input only contains number
         try:
             list_to_sort = []
-            # check that user only entered whole numbers
+            # check that user only entered integers
             for v in user_values:
                 list_to_sort.append(int(v))
             # checks that user entered at least 3 numbers
             if len(list_to_sort) < 3:
-                raise IOError
+                raise ListTooShortError
+            # checks that the user input is not too long
+            # if user input is too long, displaying all combinations their input of size 3 becomes unwieldy
+            if len(list_to_sort) > 6:
+                raise ListTooLongError
             # if the user entered more than 3 numbers, allow them to choose a list to create a sub-tee from
             if len(list_to_sort) > 3:
                 # create a list containing a combinations of size 3 of the user's input
@@ -92,13 +106,16 @@ class TreeGUI:
 
         # if non-numeric values are given, prompt the user to try again
         except ValueError:
-            self.feedback_label_text.set("Please enter whole numbers only")
+            self.feedback_label_text.set("Please enter integers only")
             return
 
         # if less than three numbers are given, prompt the user to try again
-        except IOError:
-            self.feedback_label_text.set("Please enter at least 3 numbers")
+        except ListTooShortError:
+            self.feedback_label_text.set("Please enter at least 3 integers")
             return
+
+        except ListTooLongError:
+            self.feedback_label_text.set("Please enter at most 6 integers")
 
     def subtree_popup(self, array):
         # the index of the list chosen by the user
