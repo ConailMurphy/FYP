@@ -21,7 +21,7 @@ class TreeGUI:
 
         # create the GUI window
         self.window = master
-        self.window.title("GUI")
+        self.window.title("Decision Tree Tool")
         self.window.geometry("700x500")
 
         # label to prompt the user to select a sorting algorithm
