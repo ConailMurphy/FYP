@@ -23,7 +23,6 @@ class TestTreeNode(TestCase):
         self.assertEqual(root.left_child.right_child, None)
         self.assertEqual(root.left_child.data, root.data)
 
-
     def test_create_graphic_node(self):
         print "testing create_graphic_node"
         root = self.root
@@ -35,9 +34,10 @@ class TestTreeNode(TestCase):
         self.assertFalse(not graphic_node.children)
         self.assertEqual(graphic_node.children[0].parent, graphic_node)
         self.assertEqual(graphic_node.id, "a b c")
-        self.assertEqual(graphic_node.j_data[0], [2, 1 ,3])
+        self.assertEqual(graphic_node.j_data[0], [2, 1, 3])
         self.assertEqual(graphic_node.children[0].id, "b a c")
         self.assertEqual(graphic_node.children[0].j_data[0], [2, 1, 3])
+
 
 if __name__ == '__main__':
     main()
