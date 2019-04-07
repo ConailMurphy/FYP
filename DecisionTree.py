@@ -7,7 +7,7 @@ from anytree import *
 class TreeNode:
     def __init__(self, parent, order, decision):
         self.parent = parent  # the parent node. None for the root node
-        self.decision = decision  # the comparison made by the algorithm eg. x > y
+        self.decision = decision  # a single comparison made by the algorithm eg. x > y
         self.order = order   # the order of the elements for the node eg. b c a
         self.left_child = None  # left children made a comparison such that x > y
         self.right_child = None  # right children made a comparison such that x < y

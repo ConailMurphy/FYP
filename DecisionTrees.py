@@ -1,5 +1,5 @@
 # create and displays a GUI
-from GUI import TreeGui
+from GUI import TreeGUI
 import Tkinter
 window = Tkinter.Tk()
-dt = TreeGui(window)
+dt = TreeGUI(window)
