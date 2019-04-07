@@ -4,6 +4,8 @@
 # the second would have l = "b" and so on
 # this is for bookkeeping purposes so the results can be used to build the decision tree
 
+import math
+
 # whenever a sorting algorithm makes a comparison, it will be appended to this list
 decisions_made = []
 
@@ -135,3 +137,20 @@ def heapify(array, n, i):
     if maximum != i:
         array[i], array[maximum] = array[maximum], array[i]
         heapify(array, n, maximum)
+
+
+# a variation of bubble sort that begins by comparing elements at opposite ends of the list
+# and gradually shrinks the gap
+def comb_sort(array):
+    # gap is initially the length of the array
+    gap = len(array)
+    shrink_factor = 1.3
+    while gap > 1:
+        gap = int(math.floor(gap // shrink_factor))
+        for i in range(0, len(array) - gap):
+            if array[i][0] > array[i+gap][0]:
+                decisions_made.append((str(array[i][1]), ">", str(array[i + gap][1])))
+                swap(array, i, i + gap)
+            else:
+                decisions_made.append((str(array[i][1]), "<", str(array[i + gap][1])))
+    return array
