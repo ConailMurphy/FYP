@@ -208,4 +208,4 @@ class TreeGUI:
         # create a graphic representation of the node using the anytree library
         # and display it in the GUI window
         graphic_root = root.create_graphic_node(len(array))
-        self.results_label_text.set((DecisionTree.RenderTree(graphic_root)))
+        self.results_label_text.set((DecisionTree.RenderTree(graphic_root, style=DecisionTree.DoubleStyle())))
