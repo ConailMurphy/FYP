@@ -125,16 +125,18 @@ class TreeNode:
         if isinstance(graphic_node, int):
             # since a graphic nodes id is derived from it's parent.order
             # and the root node has no parent, it's id must be created from scratch
-            node_id = ""
+            order = ""
             for i in range(graphic_node):
-                node_id = node_id + string.ascii_lowercase[i]
+                order = order + string.ascii_lowercase[i]
                 if i < graphic_node - 1:
-                    node_id = node_id + " "
+                    order = order + " "
             # anytree's RenderTree function prints the attributes names in alphabetical order
-            # for this reason data is stored as j_data so that it will be printed after id
-            new_graphic_node = AnyNode(id=node_id, parent=self.parent, j_data=data)
+            # for this reason attribute names have a letter addeed to the start so tha they
+            # are printed in the desired order
+            new_graphic_node = AnyNode(parent=self.parent, a_decision=None, b_order=order, c_data=data)
         else:
-            new_graphic_node = AnyNode(id=string.join(self.order), parent=graphic_node, j_data=data)
+            new_graphic_node = \
+                AnyNode(parent=graphic_node, a_decision=self.decision, b_order=string.join(self.order), c_data=data)
 
         # recursively call create_graphic_node if the node has any child nodes
         if self.left_child:
