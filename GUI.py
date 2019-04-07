@@ -1,11 +1,12 @@
 import Tkinter
 import itertools
 import string
-import SortingAlgorithms
+
 import DecisionTree
+import SortingAlgorithms
 
 
-class TreeGui:
+class TreeGUI:
     def __init__(self, master):
 
         # create the GUI window
@@ -21,12 +22,12 @@ class TreeGui:
 
         # option list for selecting a sorting algorithm to run
         self.algorithm_option_list = \
-            ["Bubble Sort", "Insertion Sort", "Selection Sort", "Merge Sort", "Heap Sort", "Quick Sort"]
+            ["Bubble Sort", "Insertion Sort", "Selection Sort", "Merge Sort", "Heap Sort", "Quick Sort", "Comb Sort"]
         self.algorithm_option_var = Tkinter.StringVar()
         self.algorithm_option_var.set(self.algorithm_option_list[0])  # bubble sort is the default option
         self.algorithm_drop_menu = Tkinter.OptionMenu(self.window, self.algorithm_option_var,
                                                       *self.algorithm_option_list)
-        self.algorithm_drop_menu.grid(column=0, row=6)
+        self.algorithm_drop_menu.grid(column=0, row=7)
         self.algorithm_drop_menu.pack()
 
         # label to prompt for the user to enter input
@@ -125,7 +126,7 @@ class TreeGui:
         subtree_option_var = Tkinter.StringVar(popup)
         subtree_option_var.set(subtree_option_list[0])  # index 0 in the list of combinations is the default
         subtree_drop_menu = Tkinter.OptionMenu(popup, subtree_option_var, *subtree_option_list)
-        subtree_drop_menu.grid(column=0, row=100)
+        subtree_drop_menu.grid(column=0, row=50)
         subtree_drop_menu.pack()
 
         # button for submitting the users choice
@@ -182,7 +183,8 @@ class TreeGui:
                 SortingAlgorithms.heap_sort(a)
             elif algorithm == self.algorithm_option_list[5]:
                 SortingAlgorithms.quick_sort(a, 0, len(a) - 1)
-
+            elif algorithm == self.algorithm_option_list[6]:
+                SortingAlgorithms.comb_sort(a)
             # add the results to the tree
             root.add_node(order, SortingAlgorithms.decisions_made, unsorted_array)
 
