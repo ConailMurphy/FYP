@@ -31,6 +31,7 @@ class TestSortingAlgorithms(TestCase):
                 break
         self.assertTrue(is_sorted)
         self.assertRaises(TypeError, sA.bubble_sort, self.list_2)
+        self.assertTrue(sA.decisions_made)
 
     def test_insertion_sort(self):
         print "Testing Insertion Sort"
@@ -42,6 +43,7 @@ class TestSortingAlgorithms(TestCase):
                 break
         self.assertTrue(is_sorted)
         self.assertRaises(TypeError, sA.insertion_sort, self.list_2)
+        self.assertTrue(sA.decisions_made)
 
     def test_selection_sort(self):
         print "Testing Selection Sort"
@@ -53,6 +55,7 @@ class TestSortingAlgorithms(TestCase):
                 break
         self.assertTrue(is_sorted)
         self.assertRaises(TypeError, sA.selection_sort, self.list_2)
+        self.assertTrue(sA.decisions_made)
 
     def test_merge_sort(self):
         print "Testing Merge Sort"
@@ -64,6 +67,7 @@ class TestSortingAlgorithms(TestCase):
                 break
         self.assertTrue(is_sorted)
         self.assertRaises(TypeError, sA.merge_sort, self.list_2)
+        self.assertTrue(sA.decisions_made)
 
     def test_quick_sort(self):
         print "Testing Quick Sort"
@@ -75,6 +79,7 @@ class TestSortingAlgorithms(TestCase):
                 break
         self.assertTrue(is_sorted)
         self.assertRaises(TypeError, sA.quick_sort, self.list_2, 0, len(self.list_2) - 1)
+        self.assertTrue(sA.decisions_made)
 
     def test_heap_sort(self):
         print "Testing Heap Sort"
@@ -86,6 +91,7 @@ class TestSortingAlgorithms(TestCase):
                 break
         self.assertTrue(is_sorted)
         self.assertRaises(TypeError, sA.heap_sort, self.list_2)
+        self.assertTrue(sA.decisions_made)
 
     def test_comb_sort(self):
         print "Testing Comb Sort"
@@ -97,6 +103,7 @@ class TestSortingAlgorithms(TestCase):
                 break
         self.assertTrue(is_sorted)
         self.assertRaises(TypeError, sA.comb_sort, self.list_2)
+        self.assertTrue(sA.decisions_made)
 
 
 if __name__ == '__main__':
