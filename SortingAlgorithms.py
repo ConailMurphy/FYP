@@ -19,10 +19,10 @@ def bubble_sort(array):
     for i in range(len(array)):
         for j in range(0, len(array)-i-1):
             if array[j][0] > array[j+1][0]:
-                decisions_made.append((str(array[j][1]), ">", str(array[j+1][1])))
+                decisions_made.append((str(array[j][1]), ">", str(array[j+1][1]), "swap"))
                 swap(array, j, j+1)
             else:
-                decisions_made.append((str(array[j][1]), "<", str(array[j+1][1])))
+                decisions_made.append((str(array[j][1]), "<", str(array[j+1][1]), "no swap"))
     return array
 
 
@@ -31,10 +31,10 @@ def insertion_sort(array):
         key = array[i]
         j = i - 1
         while j >= 0 and key[0] < array[j][0]:
-            decisions_made.append((str(key[1]), "<", str(array[j][1])))
+            decisions_made.append((str(key[1]), "<", str(array[j][1]), "swap"))
             swap(array, j+1, j)
             j -= 1
-        decisions_made.append((str(key[1]), ">", str(array[j][1])))
+        decisions_made.append((str(key[1]), ">", str(array[j][1]), "no swap"))
         array[j+1] = key
     return array
 
@@ -44,10 +44,10 @@ def selection_sort(array):
         minimum = i
         for j in range(i+1, len(array)):
             if array[minimum][0] > array[j][0]:
-                decisions_made.append((str(array[minimum][1]), ">", str(array[j][1])))
+                decisions_made.append((str(array[minimum][1]), ">", str(array[j][1]), "swap"))
                 minimum = j
             else:
-                decisions_made.append((str(array[minimum][1]), "<", str(array[j][1])))
+                decisions_made.append((str(array[minimum][1]), "<", str(array[j][1]), "no swap"))
         swap(array, i, minimum)
     return array
 
@@ -67,12 +67,12 @@ def merge(left_array, right_array):
     merged_array = []
     while len(left_array) != 0 and len(right_array) != 0:
         if left_array[0][0] < right_array[0][0]:
-            decisions_made.append((str(left_array[0][1]), "<", str(right_array[0][1])))
+            decisions_made.append((str(left_array[0][1]), "<", str(right_array[0][1]) , "no swap"))
             merged_array.append(left_array[0])
             left_array.remove(left_array[0])
         else:
             merged_array.append(right_array[0])
-            decisions_made.append((str(left_array[0][1]), ">", str(right_array[0][1])))
+            decisions_made.append((str(left_array[0][1]), ">", str(right_array[0][1]) , "swap"))
             right_array.remove(right_array[0])
 
     if len(left_array) > 0:
@@ -97,11 +97,11 @@ def partition(array, low, high):
 
     for j in range(low, high):
         if array[j][0] <= pivot[0]:
-            decisions_made.append((array[j][1], "<", pivot[1]))
+            decisions_made.append((array[j][1], "<", pivot[1], "swap"))
             i += 1
             swap(array, i, j)
         else:
-            decisions_made.append((array[j][1], ">", pivot[1]))
+            decisions_made.append((array[j][1], ">", pivot[1], "no swap"))
     swap(array, i+1, high)
     return i + 1
 
@@ -123,16 +123,16 @@ def heapify(array, n, i):
     right_child = 2 * i + 2
 
     if left_child < n and array[i][0] < array[left_child][0]:
-        decisions_made.append((array[left_child][1], ">", array[i][1]))
+        decisions_made.append((array[left_child][1], ">", array[i][1], "swap"))
         maximum = left_child
     elif left_child < n and array[i][0] > array[left_child][0]:
-        decisions_made.append((array[left_child][1], "<", array[i][1]))
+        decisions_made.append((array[left_child][1], "<", array[i][1], "no swap"))
 
     if right_child < n and array[maximum][0] < array[right_child][0]:
-        decisions_made.append((array[right_child][1], ">", array[maximum][1]))
+        decisions_made.append((array[right_child][1], ">", array[maximum][1], "swap"))
         maximum = right_child
     elif right_child < n and array[maximum][0] > array[right_child][0]:
-        decisions_made.append((array[right_child][1], "<", array[maximum][1]))
+        decisions_made.append((array[right_child][1], "<", array[maximum][1], "no swap"))
 
     if maximum != i:
         array[i], array[maximum] = array[maximum], array[i]
@@ -149,8 +149,8 @@ def comb_sort(array):
         gap = int(math.floor(gap // shrink_factor))
         for i in range(0, len(array) - gap):
             if array[i][0] > array[i+gap][0]:
-                decisions_made.append((str(array[i][1]), ">", str(array[i + gap][1])))
+                decisions_made.append((str(array[i][1]), ">", str(array[i + gap][1]), "swap"))
                 swap(array, i, i + gap)
             else:
-                decisions_made.append((str(array[i][1]), "<", str(array[i + gap][1])))
+                decisions_made.append((str(array[i][1]), "<", str(array[i + gap][1]), "no swap"))
     return array
