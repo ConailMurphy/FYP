@@ -206,6 +206,13 @@ class TreeGUI:
             root.add_node(order, SortingAlgorithms.decisions_made, unsorted_array)
 
         # create a graphic representation of the node using the anytree library
-        # and display it in the GUI window
+        # and display it in the GUI window.
+        # an AnyTree object stores it's dhild nodes in a list children. If a node 
+        # has two children then children[0] will be the left child and children[1]
+        # will be the right child. Thus, when a node is printed using the RenderTree function
+        # the first node printed would be the left child and the second would be the right child.
+        # If a node has only a single child, whether ot not it is a left child or a right child 
+        # can be determined by the logical operator in the nodes decision attribute (">" for a left
+        # child and "<" for a right child
         graphic_root = root.create_graphic_node(len(array))
         self.results_label_text.set((DecisionTree.RenderTree(graphic_root, style=DecisionTree.DoubleStyle())))
